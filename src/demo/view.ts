@@ -32,6 +32,10 @@ export function buildDemoView(s: DemoSnapshot) {
     asOf: dateLabel(s.asOfDate),
     months: s.months.map((m) => ({
       label: monthLabel(m.month),
+      short: MONTHS[Number(m.month.slice(5, 7)) - 1] ?? m.month,
+      erpnextCents: m.erpnextCents,
+      legacyCents: m.legacyCents,
+      totalCents: m.totalCents,
       erpnext: formatUsdCents(m.erpnextCents),
       legacy: formatUsdCents(m.legacyCents),
       total: formatUsdCents(m.totalCents),
@@ -44,7 +48,8 @@ export function buildDemoView(s: DemoSnapshot) {
       total: formatUsdCents(s.total.totalCents),
       invoices: s.total.invoices,
     },
-    customers: s.topCustomers.map((c) => ({ name: c.name, total: formatUsdCents(c.totalCents), invoices: c.invoices })),
+    customers: s.topCustomers.map((c) => ({ name: c.name, totalCents: c.totalCents, total: formatUsdCents(c.totalCents), invoices: c.invoices })),
+    maxMonthCents: Math.max(0, ...s.months.map((m) => m.totalCents)),
     quarantineCount: s.quarantine.count,
     quarantine: s.quarantine.byReason.map((q) => ({ reason: reasonLabel(q.reasonCode), code: q.reasonCode, count: q.count })),
     quarantineExamples: s.quarantine.examples.map((e) => ({
@@ -58,6 +63,7 @@ export function buildDemoView(s: DemoSnapshot) {
       { label: "Queue: pending messages", value: String(s.health.queuePending ?? "unknown") },
       { label: "Dead-letter queue", value: String(s.health.deadLetter) },
     ],
+    reconciled: r?.erpTotal != null && r.storedTotal != null && toCents(r.erpTotal) === toCents(r.storedTotal) && (r.unexplained ?? 0) === 0,
     reconciliation: r?.erpTotal != null && r.storedTotal != null
       ? `ERPNext ${formatUsdCents(toCents(r.erpTotal))} ${toCents(r.erpTotal) === toCents(r.storedTotal) ? "=" : "≠"} stored ${formatUsdCents(toCents(r.storedTotal))}, ${r.unexplained ?? 0} unexplained`
       : "No successful run in this snapshot",

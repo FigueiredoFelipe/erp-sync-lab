@@ -1,0 +1,364 @@
+/* Public demo only. Color carries meaning: blue = ERPNext (--series-1), orange = legacy export (--series-2),
+   red = quarantine (--critical), green = reconciled (--positive). Nothing else is colored. */
+
+.page {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 24px 16px 72px;
+}
+
+.note {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0 0 32px;
+  padding-left: 12px;
+  border-left: 3px solid var(--positive);
+}
+
+.title {
+  font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+  max-width: 18ch;
+}
+
+.lede {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 64ch;
+  margin: 0 0 32px;
+}
+
+/* The equation: the one bold moment of the page. */
+.equation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 8px 14px;
+  margin: 0 0 28px;
+}
+
+.term {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 16px 12px;
+  border-radius: 10px;
+  min-width: 0;
+}
+
+.term strong {
+  font-size: clamp(1.35rem, 3.2vw, 2rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+}
+
+.term span {
+  font-size: 0.85rem;
+}
+
+.erp {
+  background: var(--series-1-soft);
+  color: var(--series-1);
+}
+
+.legacy {
+  background: var(--series-2-soft);
+  color: var(--series-2);
+}
+
+.erp span,
+.legacy span {
+  color: var(--text-primary);
+}
+
+.sum {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.op {
+  align-self: center;
+  font-size: 1.6rem;
+  color: var(--text-muted);
+}
+
+.panel {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 28px;
+}
+
+.panelTitle {
+  font-size: 1.15rem;
+  margin: 0 0 4px;
+}
+
+.caption {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0 0 16px;
+}
+
+.chartScroll {
+  overflow-x: auto;
+}
+
+.chart {
+  width: 100%;
+  min-width: 560px;
+  height: auto;
+  display: block;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.numbers {
+  margin-top: 14px;
+  font-size: 0.9rem;
+}
+
+.numbers summary {
+  cursor: pointer;
+  color: var(--accent-text);
+}
+
+.numbers table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.numbers th,
+.numbers td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--grid);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.numbers th:first-child,
+.numbers td:first-child {
+  text-align: left;
+}
+
+/* Pipeline: two colored streams merge, one red branch leaves, the flow ends green. */
+.flow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.sources {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.node {
+  border-radius: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-0);
+  font-size: 0.9rem;
+}
+
+.node b {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.node small {
+  color: var(--text-secondary);
+}
+
+.nodeErp {
+  border-left: 5px solid var(--series-1);
+}
+
+.nodeLegacy {
+  border-left: 5px solid var(--series-2);
+}
+
+.arrow {
+  color: var(--text-muted);
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.branch {
+  margin-top: 8px;
+  border-radius: 10px;
+  padding: 8px 12px;
+  background: var(--critical-soft);
+  color: var(--critical);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.done {
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--positive) 14%, transparent);
+  border: 1px solid var(--positive);
+  font-size: 0.9rem;
+}
+
+.done b {
+  color: var(--positive);
+  display: block;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 28px;
+  margin-bottom: 28px;
+}
+
+.pair > .panel {
+  margin-bottom: 0;
+}
+
+.bars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 12px;
+  font-size: 0.9rem;
+}
+
+.bar span:last-of-type {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.track {
+  grid-column: 1 / -1;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--grid);
+  overflow: hidden;
+}
+
+.fillTotal {
+  height: 100%;
+  background: var(--accent-text);
+}
+
+.fillBad {
+  height: 100%;
+  background: var(--critical);
+}
+
+.docs {
+  margin: 14px 0 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.docs code {
+  color: var(--text-primary);
+}
+
+.health {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+
+.health div {
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: var(--surface-0);
+}
+
+.health dt {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.health dd {
+  margin: 2px 0 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--positive);
+  flex: none;
+}
+
+.matched {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--positive) 14%, transparent);
+  color: var(--positive);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.cta {
+  font-size: 1rem;
+}
+
+.cta a {
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .flow {
+    grid-template-columns: 1fr;
+  }
+
+  .arrow {
+    transform: rotate(90deg);
+  }
+
+  .pair {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}

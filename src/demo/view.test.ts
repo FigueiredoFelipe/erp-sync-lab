@@ -27,7 +27,8 @@ const snapshot: DemoSnapshot = {
 describe("buildDemoView", () => {
   it("labels months and formats money", () => {
     const view = buildDemoView(snapshot);
-    expect(view.months[0]).toEqual({ label: "Jan 2026", erpnext: "$100.00", legacy: "$50.00", total: "$150.00", invoices: 3, partial: false });
+    expect(view.months[0]).toEqual({ label: "Jan 2026", short: "Jan", erpnextCents: 100_00, legacyCents: 50_00, totalCents: 150_00, erpnext: "$100.00", legacy: "$50.00", total: "$150.00", invoices: 3, partial: false });
+    expect(view.maxMonthCents).toBe(150_00);
     expect(view.months[1]?.partial).toBe(true);
     expect(view.total).toEqual({ erpnext: "$110.00", legacy: "$50.00", total: "$160.00", invoices: 4 });
   });
@@ -40,10 +41,13 @@ describe("buildDemoView", () => {
 
   it("describes reconciliation as matched when nothing is unexplained", () => {
     expect(buildDemoView(snapshot).reconciliation).toBe("ERPNext $462,664.00 = stored $462,664.00, 0 unexplained");
+    expect(buildDemoView(snapshot).reconciled).toBe(true);
   });
 
   it("says when no reconciliation has succeeded", () => {
-    expect(buildDemoView({ ...snapshot, health: { ...snapshot.health, reconciliation: null } }).reconciliation).toBe("No successful run in this snapshot");
+    const none = buildDemoView({ ...snapshot, health: { ...snapshot.health, reconciliation: null } });
+    expect(none.reconciliation).toBe("No successful run in this snapshot");
+    expect(none.reconciled).toBe(false);
   });
 
   it("gives readable quarantine reasons", () => {
