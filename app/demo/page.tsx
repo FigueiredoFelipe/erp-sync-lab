@@ -71,6 +71,9 @@ export default function DemoPage() {
   const topReason = Math.max(1, ...view.quarantine.map((q) => q.count));
   return (
     <main className={styles.page}>
+      <p className={styles.topLink}>
+        <a href={REPO}>View the code on GitHub</a>
+      </p>
       <p className={styles.note} role="note">
         Static sample of a fictional company. Figures frozen from the live pipeline on {view.frozenOn}; this page never
         reads or writes a database.
@@ -202,10 +205,19 @@ export default function DemoPage() {
         <p className={styles.matched}>{view.reconciled ? "Reconciled: " : ""}{view.reconciliation}</p>
       </section>
 
-      <p className={styles.cta}>
-        The full pipeline, the signed-in dashboard, the tests and the spec-driven documents are in the{" "}
-        <a href={REPO}>GitHub repository</a>, with instructions to run it locally.
-      </p>
+      <section className={styles.ctaPanel} aria-labelledby="code">
+        <div>
+          <h2 id="code" className={styles.ctaTitle}>The whole system is open source</h2>
+          <p className={styles.ctaText}>
+            Adapters, quarantine rules, queue and workers, reconciliation, the signed-in dashboard, 1,000+ tests and the
+            spec-driven documents behind every decision. Clone it and run it locally.
+          </p>
+        </div>
+        <div className={styles.ctaActions}>
+          <a className={styles.ctaPrimary} href={REPO}>View the code on GitHub</a>
+          <a className={styles.ctaSecondary} href={`${REPO}/tree/main/specs`}>Read the specs</a>
+        </div>
+      </section>
     </main>
   );
 }

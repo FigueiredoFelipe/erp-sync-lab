@@ -339,13 +339,71 @@
   font-size: 0.9rem;
 }
 
-.cta {
-  font-size: 1rem;
+.topLink {
+  margin: 0 0 12px;
+  text-align: right;
+  font-size: 0.9rem;
 }
 
-.cta a {
+.topLink a {
   color: var(--accent-text);
   font-weight: 600;
+}
+
+/* Closing call to action: the one place with a filled button. */
+.ctaPanel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 32px;
+  padding: 28px;
+  border-radius: 14px;
+  border: 1px solid var(--series-1);
+  background: linear-gradient(135deg, var(--series-1-soft), var(--surface-1) 70%);
+}
+
+.ctaTitle {
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  margin: 0 0 8px;
+}
+
+.ctaText {
+  margin: 0;
+  max-width: 58ch;
+  color: var(--text-secondary);
+}
+
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ctaPrimary,
+.ctaSecondary {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.ctaPrimary {
+  background: var(--series-1);
+  color: #fff;
+}
+
+.ctaSecondary {
+  border: 1px solid var(--series-1);
+  color: var(--accent-text);
+}
+
+.ctaPrimary:focus-visible,
+.ctaSecondary:focus-visible,
+.topLink a:focus-visible {
+  outline: 3px solid var(--accent-text);
+  outline-offset: 3px;
 }
 
 @media (max-width: 760px) {
