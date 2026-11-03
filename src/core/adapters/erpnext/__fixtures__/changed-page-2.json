@@ -1,0 +1,74 @@
+{
+  "data": [
+    {
+      "name": "ACC-SINV-2026-00004",
+      "docstatus": 1,
+      "modified": "2026-10-17 20:39:09.133158",
+      "company": "Harvest Table Foods",
+      "customer": "Blue Ridge Kitchens",
+      "posting_date": "2026-03-07",
+      "currency": "USD",
+      "is_return": 0,
+      "return_against": null,
+      "amended_from": null,
+      "base_net_total": 2994,
+      "items": [
+        {
+          "name": "2ku2mk7j0m",
+          "idx": 1,
+          "item_code": "OIL-CANOLA-35LB",
+          "item_name": "Canola Frying Oil 35 lb Jug",
+          "qty": 30,
+          "base_rate": 36,
+          "base_net_rate": 36,
+          "base_net_amount": 1080
+        },
+        {
+          "name": "2ku2toh4i2",
+          "idx": 2,
+          "item_code": "BEANS-BLACK-10",
+          "item_name": "Black Beans #10 Case (6)",
+          "qty": 30,
+          "base_rate": 33,
+          "base_net_rate": 33,
+          "base_net_amount": 990
+        },
+        {
+          "name": "2ku2ukcdsr",
+          "idx": 3,
+          "item_code": "FLOUR-AP-50LB",
+          "item_name": "All-Purpose Flour 50 lb Bag",
+          "qty": 33,
+          "base_rate": 28,
+          "base_net_rate": 28,
+          "base_net_amount": 924
+        }
+      ]
+    },
+    {
+      "name": "ACC-SINV-2026-00005",
+      "docstatus": 1,
+      "modified": "2026-10-17 20:39:09.515660",
+      "company": "Harvest Table Foods",
+      "customer": "Blue Ridge Kitchens",
+      "posting_date": "2026-04-15",
+      "currency": "USD",
+      "is_return": 0,
+      "return_against": null,
+      "amended_from": null,
+      "base_net_total": 3052,
+      "items": [
+        {
+          "name": "2ku6ccitlp",
+          "idx": 1,
+          "item_code": "FLOUR-AP-50LB",
+          "item_name": "All-Purpose Flour 50 lb Bag",
+          "qty": 109,
+          "base_rate": 28,
+          "base_net_rate": 28,
+          "base_net_amount": 3052
+        }
+      ]
+    }
+  ]
+}

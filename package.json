@@ -1,0 +1,48 @@
+{
+  "name": "erp-sync-lab",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "dev:local": "eval \"$(supabase status -o env | grep -E \"^(API_URL|PUBLISHABLE_KEY)=\")\" && SUPABASE_URL=$API_URL SUPABASE_PUBLISHABLE_KEY=$PUBLISHABLE_KEY next dev --port 3000",
+    "build": "next build",
+    "typecheck": "tsc --noEmit && next typegen && tsc --noEmit -p tsconfig.next.json",
+    "seed:erp": "node --env-file=.env scripts/seed/seed-erpnext.ts",
+    "seed:erp:dry": "node scripts/seed/seed-erpnext.ts --dry-run",
+    "seed:demo": "node --env-file=.env scripts/seed/seed-demo.ts",
+    "demo:poll": "node --env-file=.env scripts/demo/demo.ts poll",
+    "demo:switch": "node --env-file=.env scripts/demo/demo.ts switch",
+    "demo:status": "node --env-file=.env scripts/demo/demo.ts status",
+    "demo:upload": "node --env-file=.env scripts/demo/upload-unit-b.ts",
+    "legacy:csv": "node scripts/legacy/generate-unit-b-export.ts",
+    "test": "jest",
+    "db:start": "supabase start",
+    "db:reset": "supabase db reset",
+    "demo:snapshot": "node --env-file=.env scripts/demo/export-snapshot.ts"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.16.18",
+    "@swc/jest": "^0.2.39",
+    "@types/node": "^24.19.2",
+    "@types/pg": "^8.23.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "jest": "^30.5.2",
+    "pg": "^8.23.1",
+    "supabase": "^2.121.0",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@supabase/ssr": "0.12.7",
+    "@supabase/supabase-js": "^2.118.0",
+    "csv-parse": "7.0.3",
+    "next": "16.4.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "recharts": "3.10.1"
+  }
+}

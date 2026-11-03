@@ -1,0 +1,139 @@
+{
+  "data": [
+    {
+      "name": "ACC-SINV-2026-00001",
+      "docstatus": 1,
+      "modified": "2026-10-17 20:39:07.886022",
+      "company": "Harvest Table Foods",
+      "customer": "Blue Ridge Kitchens",
+      "posting_date": "2026-01-14",
+      "currency": "USD",
+      "is_return": 0,
+      "return_against": null,
+      "amended_from": null,
+      "base_net_total": 1166,
+      "items": [
+        {
+          "name": "5ktkb73m4m",
+          "idx": 1,
+          "item_code": "SUGAR-GRAN-25LB",
+          "item_name": "Granulated Sugar 25 lb Bag",
+          "qty": 32,
+          "base_rate": 21,
+          "base_net_rate": 21,
+          "base_net_amount": 672
+        },
+        {
+          "name": "5ktkb7hilc",
+          "idx": 2,
+          "item_code": "TOMATO-DICED-10",
+          "item_name": "Canned Diced Tomatoes #10 Case (6)",
+          "qty": 13,
+          "base_rate": 38,
+          "base_net_rate": 38,
+          "base_net_amount": 494
+        }
+      ]
+    },
+    {
+      "name": "ACC-SINV-2026-00002",
+      "docstatus": 1,
+      "modified": "2026-10-17 20:39:08.378782",
+      "company": "Harvest Table Foods",
+      "customer": "Blue Ridge Kitchens",
+      "posting_date": "2026-01-25",
+      "currency": "USD",
+      "is_return": 0,
+      "return_against": null,
+      "amended_from": null,
+      "base_net_total": 1176,
+      "items": [
+        {
+          "name": "ektqh0fh1p",
+          "idx": 1,
+          "item_code": "OIL-CANOLA-35LB",
+          "item_name": "Canola Frying Oil 35 lb Jug",
+          "qty": 7,
+          "base_rate": 36,
+          "base_net_rate": 36,
+          "base_net_amount": 252
+        },
+        {
+          "name": "ektql7r95q",
+          "idx": 2,
+          "item_code": "BEANS-BLACK-10",
+          "item_name": "Black Beans #10 Case (6)",
+          "qty": 10,
+          "base_rate": 33,
+          "base_net_rate": 33,
+          "base_net_amount": 330
+        },
+        {
+          "name": "ektqkkolh4",
+          "idx": 3,
+          "item_code": "RICE-LG-25LB",
+          "item_name": "Long Grain White Rice 25 lb Bag",
+          "qty": 16,
+          "base_rate": 24,
+          "base_net_rate": 24,
+          "base_net_amount": 384
+        },
+        {
+          "name": "ektq1n9kd5",
+          "idx": 4,
+          "item_code": "OIL-EVOO-3L",
+          "item_name": "Extra Virgin Olive Oil 3 L Tin",
+          "qty": 5,
+          "base_rate": 42,
+          "base_net_rate": 42,
+          "base_net_amount": 210
+        }
+      ]
+    },
+    {
+      "name": "ACC-SINV-2026-00003",
+      "docstatus": 1,
+      "modified": "2026-10-17 20:39:08.776123",
+      "company": "Harvest Table Foods",
+      "customer": "Blue Ridge Kitchens",
+      "posting_date": "2026-02-22",
+      "currency": "USD",
+      "is_return": 0,
+      "return_against": null,
+      "amended_from": null,
+      "base_net_total": 2534,
+      "items": [
+        {
+          "name": "ektu7aj09r",
+          "idx": 1,
+          "item_code": "TOMATO-DICED-10",
+          "item_name": "Canned Diced Tomatoes #10 Case (6)",
+          "qty": 21,
+          "base_rate": 38,
+          "base_net_rate": 38,
+          "base_net_amount": 798
+        },
+        {
+          "name": "ektuptg12u",
+          "idx": 2,
+          "item_code": "FLOUR-AP-50LB",
+          "item_name": "All-Purpose Flour 50 lb Bag",
+          "qty": 32,
+          "base_rate": 28,
+          "base_net_rate": 28,
+          "base_net_amount": 896
+        },
+        {
+          "name": "ektutgt4q6",
+          "idx": 3,
+          "item_code": "RICE-LG-25LB",
+          "item_name": "Long Grain White Rice 25 lb Bag",
+          "qty": 35,
+          "base_rate": 24,
+          "base_net_rate": 24,
+          "base_net_amount": 840
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1141 @@
+:root {
+  --control-height: 34px;
+  /* T25 (SPEC R16, AC21): native controls (date-picker icons, select arrows, scrollbars) follow the theme. */
+  color-scheme: light dark;
+  --surface-0: #f4f4f2;
+  --surface-1: #fcfcfb;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #6f6e69;
+  --grid: #e3e2de;
+  --border: #d9d8d3;
+  --series-1: #2a78d6;
+  --series-1-soft: #d6e6f8;
+  /* R19: Unit B export. 3.12:1 on --surface-1 (only 2.91 on --surface-0: the chart stays on the card).
+     The soft fill sits under the partial hatch: stripes 2.57:1 on it; it is 1.22:1 on --surface-1, like
+     --series-1-soft's 1.24 (the stripes carry the contrast). */
+  --series-2: #eb6834;
+  --series-2-soft: #fbe1d5;
+  --critical: #b42318;
+  --critical-soft: #fde8e6;
+  --positive: #1a7f37;
+  --warning: #9a6700;
+  --accent-text: #1f5fae;
+  /* R18: loading placeholders, >= 3:1 against --surface-0 and --surface-1 even at the pulse's faded end
+     (0.95 opacity: 3.84 and 4.09). */
+  --placeholder: #76756f;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-0: #121211;
+    --surface-1: #1a1a19;
+    --text-primary: #f0efec;
+    --text-secondary: #c3c2b7;
+    --text-muted: #9a998f;
+    --grid: #2e2e2c;
+    --border: #3a3a37;
+    --series-1: #3987e5;
+    --series-1-soft: #1d3350;
+    /* 4.48:1 on --surface-1; stripes 3.42:1 on the soft fill, which is 1.31:1 on --surface-1. */
+    --series-2: #d95926;
+    --series-2-soft: #4a2616;
+    --critical: #f97066;
+    --critical-soft: #3a1714;
+    --positive: #4ac26b;
+    --warning: #d4a72c;
+    --accent-text: #8ab8f0;
+    /* 0.95 opacity: 4.33 against --surface-0, 4.04 against --surface-1. */
+    --placeholder: #807f79;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--surface-0);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin: 0 0 4px;
+}
+
+.as-of {
+  color: var(--text-secondary);
+  margin: 0 0 24px;
+  font-size: 0.9rem;
+}
+
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.chart {
+  width: 100%;
+  height: 320px;
+}
+
+.error {
+  color: var(--critical);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+th,
+td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--grid);
+  text-align: left;
+}
+
+th.num,
+td.num {
+  text-align: right;
+}
+
+thead th {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+tfoot td {
+  font-weight: 700;
+  border-bottom: none;
+  border-top: 2px solid var(--border);
+}
+
+/* ---------------------------------------------------------------- navigation */
+
+.topbar {
+  background: var(--surface-1);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 24px;
+}
+
+.brand {
+  font-weight: 700;
+  padding: 12px 0;
+}
+
+.nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav a {
+  position: relative;
+  display: inline-block;
+  padding: 12px 10px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+.nav a:hover {
+  color: var(--text-primary);
+}
+
+.nav a[aria-current="page"] {
+  color: var(--text-primary);
+  border-bottom-color: var(--series-1);
+  font-weight: 600;
+}
+
+.chart-tooltip {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.25);
+  min-width: 180px;
+}
+
+.chart-tooltip-label,
+.chart-tooltip-caption {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+/* R19: the total's tag is neutral (no series color: blue means ERPNext). */
+.chart-tooltip-value {
+  display: inline-block;
+  margin: 6px 0 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface-0);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-tooltip-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* One line per source: swatch, name, revenue, invoices. */
+.chart-tooltip-sources {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 8px 0 0;
+  border-top: 1px solid var(--grid);
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  column-gap: 8px;
+  row-gap: 4px;
+  align-items: center;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-tooltip-sources li {
+  display: contents;
+}
+
+.chart-tooltip-source {
+  color: var(--text-secondary);
+}
+
+.chart-tooltip-source-revenue {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-align: right;
+}
+
+.chart-tooltip-source-invoices {
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+/* R19: static legend above the plot; fixed height so SkeletonChart can reserve exactly the same row. */
+.chart-legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  height: 20px;
+  margin: 0 0 8px;
+  padding: 0;
+  font-size: 0.85rem;
+  line-height: 20px;
+  color: var(--text-secondary);
+  overflow: hidden;
+}
+
+.chart-legend li {
+  display: inline-flex;
+  align-items: center;
+}
+
+.skeleton-legend-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+.skeleton-legend-name {
+  width: 7em;
+  height: 0.8rem;
+}
+
+.nav-signout {
+  margin-left: auto;
+}
+
+/* ---------------------------------------------------------------- sign-in and access denied */
+
+.auth-page {
+  max-width: 480px;
+}
+
+.auth-card h1 {
+  margin-top: 0;
+}
+
+main.wide {
+  max-width: 1100px;
+}
+
+h2 {
+  font-size: 1.1rem;
+  margin: 0 0 12px;
+}
+
+/* ---------------------------------------------------------------- partial month (T10c) */
+
+.badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Neutral since R19: blue now means ERPNext, and the partial marking applies to both sources. */
+.badge-partial {
+  background: var(--surface-0);
+  color: var(--text-secondary);
+  border: 1px dashed var(--text-secondary);
+}
+
+.partial-note {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  vertical-align: -1px;
+  border-radius: 2px;
+}
+
+/* R19: the partial marking applies to every source, so the note's swatch is a neutral hatch. */
+.swatch-partial {
+  background: repeating-linear-gradient(45deg, var(--text-secondary) 0 2px, transparent 2px 5px);
+}
+
+/* ---------------------------------------------------------------- filters, tables, states */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.filters select,
+.filters input,
+.filters button {
+  /* T28 (AC31): one height for every control, so the labels line up whatever the control type. */
+  height: var(--control-height);
+  box-sizing: border-box;
+}
+
+/* Apply and Reset wrap to the next row together, never one without the other. */
+.filter-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
+.filters select,
+.filters input {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 6px 8px;
+  color: var(--text-primary);
+  background: var(--surface-0);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  min-width: 140px;
+}
+
+button,
+.button {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface-0);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+button.link {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--accent-text);
+  text-decoration: underline;
+  font-variant-numeric: tabular-nums;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.table-scroll table {
+  min-width: 720px;
+}
+
+td.muted,
+.muted {
+  color: var(--text-muted);
+}
+
+.empty {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.unmapped {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-left: 4px;
+}
+
+/* T31 (R21, AC40): a button with a symbol and its label, never color alone. Transparent, so the label (>= 4.5:1)
+   and the symbol (same color) are measured against the cell behind it, --surface-1, in both themes:
+   light: positive 4.95, critical 6.40, accent 6.19, secondary 7.73; dark: 7.65, 6.25, 8.46, 9.72. */
+.trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  padding: 1px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  white-space: nowrap;
+  cursor: help;
+}
+
+.trend:hover {
+  border-color: currentColor;
+}
+
+.trend:focus-visible {
+  outline: 2px solid var(--series-1);
+  outline-offset: 2px;
+}
+
+.trend-symbol {
+  font-size: 0.85em;
+  line-height: 1;
+}
+
+.trend-growing {
+  color: var(--positive);
+}
+
+.trend-declining,
+.trend-churned {
+  color: var(--critical);
+}
+
+.trend-new {
+  color: var(--accent-text);
+}
+
+.trend-stable {
+  color: var(--text-secondary);
+}
+
+.trend-wrap {
+  display: inline-block;
+}
+
+/* Fixed to the viewport and placed by the page (below the badge, or above it), so no scroller clips it. */
+.trend-tip {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: max-content;
+  max-width: min(24em, calc(100vw - 16px));
+  padding: 6px 10px;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.25);
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: normal;
+  text-align: left;
+}
+
+.trend-tip[data-open="true"] {
+  display: block;
+}
+
+/* Bridges the gap to the badge, so moving the pointer onto the tooltip keeps it open. */
+.trend-tip::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 8px;
+}
+
+.trend-tip[data-place="below"]::before {
+  bottom: 100%;
+}
+
+.trend-tip[data-place="above"]::before {
+  top: 100%;
+}
+
+/* --- customers table (T31) */
+
+/* R21: the Customers page gets a wider main; the nav keeps its width. */
+main.wide-table {
+  max-width: 1680px;
+}
+
+/* The mirror/cue row above a TableScroll. Fixed height, so it is the same loading and loaded, and hidden
+   (keeping its height) when the table fits. Sticky to the top of the viewport while its table is on screen, so
+   the mirror stays reachable on a long table (the top bar isn't sticky, so nothing else sits there); opaque
+   and above the fixed cells (z-index 1-3), its 4 px bottom padding included, so rows pass under it unseen. */
+.table-scroll-bar {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  height: 38px;
+  padding-bottom: 4px;
+  background: var(--surface-1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+.table-scroll-bar[data-overflow="false"] {
+  visibility: hidden;
+}
+
+/* Text and arrow, not color: --text-secondary is 7.73:1 (light) and 9.72:1 (dark) on --surface-1. The mirror's
+   thumb (--text-muted) is 4.64:1 (light) and 6.54:1 (dark) on its --surface-0 track. */
+.table-scroll-cues {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 18px;
+  color: var(--text-secondary);
+}
+
+.table-scroll-cue {
+  cursor: pointer;
+  user-select: none;
+}
+
+.table-scroll-cue[data-visible="false"] {
+  visibility: hidden;
+}
+
+.table-scroll-mirror {
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 12px;
+  scroll-behavior: auto;
+}
+
+.table-scroll-mirror-inner {
+  height: 1px;
+}
+
+/* ::-webkit-scrollbar makes Chrome and Safari draw a classic, always-visible bar even with overlay
+   scrollbars; Firefox gets the standard properties (in Chrome they would switch the styling off). */
+.table-scroll-mirror::-webkit-scrollbar {
+  height: 10px;
+}
+
+.table-scroll-mirror::-webkit-scrollbar-track {
+  background: var(--surface-0);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+
+.table-scroll-mirror::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 5px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .table-scroll-mirror {
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-muted) var(--surface-0);
+  }
+}
+
+/* The native scroller is the source of truth; no smooth scrolling, so every input moves the same view. */
+.table-scroller {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: auto;
+  overscroll-behavior-x: contain;
+  scroll-padding-inline: var(--col-left, 0px) var(--col-right, 0px);
+}
+
+.table-scroller:focus {
+  outline: none;
+}
+
+.table-scroller:focus-visible {
+  outline: 2px solid var(--series-1);
+  outline-offset: 2px;
+}
+
+/* Total and Trend widths in ch of the table's font. TableScroll measures the real widths into --col-left,
+   --col-right and --end-offset-<n>, so the sticky offsets hold even if a cell is wider than declared. */
+.table-scroller:has(> .customers-table) {
+  --col-total: 14ch;
+  --col-trend: 14ch;
+  scroll-padding-inline: var(--col-left, 14em) var(--col-right, calc(var(--col-total) + var(--col-trend)));
+}
+
+.customers-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.customers-table th,
+.customers-table td {
+  padding: 6px 8px;
+}
+
+/* Month cells only: tighter side padding, so the default 10-month table fits from 1,440 px (AC38). Tabular
+   numerals keep the figures aligned; the font and the figures themselves are unchanged. */
+.customers-table .month-cell {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+/* Figures are never wrapped, cut or abbreviated. */
+.customers-table thead th,
+.customers-table .num {
+  white-space: nowrap;
+}
+
+.customers-table button.link {
+  font-size: inherit;
+  scroll-margin-inline: 4px;
+}
+
+/* The tfoot's top border separates the Total row; no double line above it. */
+.customers-table tbody tr:last-child > * {
+  border-bottom: none;
+}
+
+/* The customer column: the name wraps onto at most two lines from ~14em (shrinking to 11em before the table
+   scrolls), never cut. Whether the longest real name fits two lines at 11em is checked in the browser (AC38,
+   DevTools), not here: if one needs a third line, widen this column (up to ~16em) rather than cut the name. */
+.customers-table thead th:first-child,
+.customers-table tbody th[scope="row"],
+.customers-table tfoot td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  width: 14em;
+  min-width: 11em;
+  background: var(--surface-1);
+  box-shadow: inset -1px 0 0 var(--border);
+}
+
+.customer-name {
+  display: block;
+}
+
+.customer-name .unmapped {
+  white-space: nowrap;
+}
+
+/* Total and Trend: the last two cells of every row, the footer's empty Trend cell included. */
+.customers-table tr > :nth-last-child(-n + 2) {
+  position: sticky;
+  z-index: 1;
+  background: var(--surface-1);
+  white-space: nowrap;
+}
+
+.customers-table tr > :last-child {
+  right: var(--end-offset-0, 0px);
+  width: var(--col-trend);
+  min-width: var(--col-trend);
+}
+
+.customers-table tr > :nth-last-child(2) {
+  right: var(--end-offset-1, var(--col-trend));
+  width: var(--col-total);
+  min-width: var(--col-total);
+  box-shadow: inset 1px 0 0 var(--border);
+}
+
+.customers-table thead th:first-child,
+.customers-table thead tr > :nth-last-child(-n + 2) {
+  z-index: 2;
+}
+
+/* The row whose trend tooltip is open paints above the other rows' fixed cells. */
+.customers-table tbody tr > td.trend-cell.trend-cell-open {
+  z-index: 3;
+}
+
+/* While months scroll under them, the fixed columns also cast a shadow onto the months. */
+.table-scroller[data-overflow="true"] {
+  --fixed-shadow: rgb(0 0 0 / 0.16);
+}
+
+.table-scroller[data-overflow="true"] > .customers-table thead th:first-child,
+.table-scroller[data-overflow="true"] > .customers-table tbody th[scope="row"],
+.table-scroller[data-overflow="true"] > .customers-table tfoot td:first-child {
+  box-shadow:
+    inset -1px 0 0 var(--border),
+    5px 0 6px -3px var(--fixed-shadow);
+}
+
+.table-scroller[data-overflow="true"] > .customers-table tr > :nth-last-child(2) {
+  box-shadow:
+    inset 1px 0 0 var(--border),
+    -5px 0 6px -3px var(--fixed-shadow);
+}
+
+@media (prefers-color-scheme: dark) {
+  .table-scroller[data-overflow="true"] {
+    --fixed-shadow: rgb(0 0 0 / 0.6);
+  }
+}
+
+/* SPEC Q12, provisionally (a): when the fixed columns would take most of the width (TableScroll sets
+   data-cramped, about 360 px and below), Total scrolls with the months; customer and trend stay fixed, and the
+   trend column takes over the separating edge. */
+.table-scroller[data-cramped="true"] > .customers-table tr > :nth-last-child(2),
+.table-scroller[data-cramped="true"][data-overflow="true"] > .customers-table tr > :nth-last-child(2) {
+  position: static;
+  box-shadow: none;
+}
+
+.table-scroller[data-cramped="true"] > .customers-table tr > :last-child {
+  box-shadow: inset 1px 0 0 var(--border);
+}
+
+.table-scroller[data-cramped="true"][data-overflow="true"] > .customers-table tr > :last-child {
+  box-shadow:
+    inset 1px 0 0 var(--border),
+    -5px 0 6px -3px var(--fixed-shadow);
+}
+
+/* Below ~640 px the customer column narrows and may wrap further, Total and Trend take only their content's
+   width and the card's side padding shrinks, so customer, total and trend still fit with months between. */
+@media (max-width: 640px) {
+  .customers-card {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .table-scroller:has(> .customers-table) {
+    --col-total: 0px;
+    --col-trend: 0px;
+  }
+
+  .customers-table thead th:first-child,
+  .customers-table tbody th[scope="row"],
+  .customers-table tfoot td:first-child {
+    width: 8em;
+    min-width: 8em;
+  }
+}
+
+/* ---------------------------------------------------------------- sync health (T18) */
+
+.banner {
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+}
+
+.banner-critical {
+  background: var(--critical-soft);
+  border-color: var(--critical);
+  color: var(--text-primary);
+}
+
+.banner-critical strong {
+  color: var(--critical);
+}
+
+.banner ul {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+
+.banner-ok {
+  background: var(--surface-1);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stats .card {
+  margin-bottom: 0;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.stat-value {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 2px 0 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-value.bad {
+  color: var(--critical);
+}
+
+dl.kv {
+  margin: 8px 0 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 12px;
+  font-size: 0.85rem;
+}
+
+dl.kv dt {
+  color: var(--text-secondary);
+}
+
+dl.kv dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.drill {
+  margin-top: 16px;
+}
+
+.drill table {
+  font-size: 0.85rem;
+}
+
+.lines td {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  border-bottom: none;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+a {
+  color: var(--accent-text);
+}
+
+/* ---------------------------------------------------------------- loading feedback (T27, R18) */
+
+/* The only animation: an opacity pulse between 1 and 0.95; --placeholder keeps >= 3:1 at the faded end. */
+@keyframes pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.95;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.data-region:focus {
+  outline: none;
+}
+
+.data-region:focus-visible {
+  outline: 2px solid var(--series-1);
+  outline-offset: 2px;
+}
+
+.skeleton {
+  display: block;
+  background: var(--placeholder);
+  border-radius: 4px;
+  animation: pulse 0.9s ease-in-out infinite alternate;
+}
+
+.skeleton-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4%;
+  padding: 8px 8px 0;
+  border-bottom: 1px solid var(--grid);
+}
+
+.skeleton-bar {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+}
+
+.skeleton-heading {
+  width: 30%;
+  height: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.skeleton-line {
+  width: 80%;
+  height: 0.8rem;
+  margin: 4px 0;
+}
+
+.skeleton-line-short {
+  width: 45%;
+}
+
+/* A placeholder inside a line of text (Revenue's "data as of"): text height, so the line never jumps. */
+.skeleton-inline {
+  display: inline-block;
+  width: 10em;
+  height: 0.8em;
+  vertical-align: -0.05em;
+}
+
+/* SkeletonChart's partial-note line: the loaded note's width at desktop, capped so it never wraps. */
+.skeleton-note {
+  width: min(36em, 100%);
+}
+
+.skeleton-value {
+  width: 60%;
+  height: 1.15rem;
+  margin-top: 8px;
+}
+
+.spinner {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  border: 2px solid var(--text-muted);
+  border-right-color: transparent;
+  border-radius: 50%;
+  vertical-align: -0.1em;
+  animation: pulse 0.9s ease-in-out infinite alternate;
+}
+
+/* Reserves its width always, so the control or row holding it never changes size. */
+.busy-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  margin-left: 6px;
+  vertical-align: -0.1em;
+}
+
+/* Inside a button the spinner sits in the button's own right padding, so a busy button keeps its width. */
+button:has(> .busy-mark) {
+  position: relative;
+  padding-right: 26px;
+}
+
+button > .busy-mark {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  margin: -0.5em 0 0;
+}
+
+button[aria-busy="true"] {
+  cursor: progress;
+}
+
+.error-box {
+  border: 1px solid var(--critical);
+  background: var(--critical-soft);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+}
+
+.error-box p {
+  margin: 0 0 8px;
+}
+
+.error-box strong {
+  color: var(--critical);
+}
+
+.error-detail {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.banner button {
+  margin-left: 4px;
+}
+
+.inline-retry button.link {
+  line-height: inherit;
+  font-size: inherit;
+}
+
+/* Navigation: the clicked link is pending at once (AC26), with no animation delay. */
+.nav a:has([data-pending="true"]) {
+  color: var(--text-primary);
+  border-bottom: 2px dashed var(--series-1);
+}
+
+.nav-pending {
+  position: absolute;
+  top: calc(50% - 4.5px);
+  right: -5px;
+  width: 9px;
+  height: 9px;
+  display: flex;
+}
+
+.nav-pending .spinner {
+  width: 9px;
+  height: 9px;
+  border-width: 1.5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton,
+  .spinner {
+    animation: none;
+  }
+}
+
+/* --- financial summary (T30) */
+
+/* Revenue: three compact figures above the chart, for the page's period (R20, AC36). */
+.financial-summary-period {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin: 0 0 8px;
+}
+
+.financial-summary-figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px 24px;
+  margin: 0;
+}
+
+.financial-summary-figures dt {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.financial-summary-figures dd {
+  margin: 2px 0 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.financial-summary-figures dd .muted {
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.financial-summary .partial-note {
+  margin-bottom: 0;
+}
+
+/* Sync health: the note under "ERPNext total" spans both columns of the key-value list (AC33). */
+dl.kv dd.kv-note {
+  grid-column: 1 / -1;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  margin: 0 0 4px;
+}
+
+/* The previous successful run, below a running or failed latest run (Q11). */
+.recon-previous {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.stat-value .muted {
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+.recon-comparison {
+  margin: 0 0 24px;
+  font-size: 0.9rem;
+}
+
+/* Public demo (app/demo/page.tsx): short tables need no minimum width, and the health list stacks on phones. */
+.table-scroll.compact table {
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  dl.kv.stack {
+    grid-template-columns: 1fr;
+  }
+}

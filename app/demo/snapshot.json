@@ -1,0 +1,214 @@
+{
+  "generatedAt": "2026-11-03T09:59:50.516Z",
+  "asOfDate": "2026-10-16",
+  "months": [
+    {
+      "month": "2026-01",
+      "erpnextCents": 4666500,
+      "legacyCents": 673005,
+      "totalCents": 5339505,
+      "invoices": 30,
+      "complete": true
+    },
+    {
+      "month": "2026-02",
+      "erpnextCents": 4845600,
+      "legacyCents": 772312,
+      "totalCents": 5617912,
+      "invoices": 25,
+      "complete": true
+    },
+    {
+      "month": "2026-03",
+      "erpnextCents": 4874800,
+      "legacyCents": 850645,
+      "totalCents": 5725445,
+      "invoices": 28,
+      "complete": true
+    },
+    {
+      "month": "2026-04",
+      "erpnextCents": 4798000,
+      "legacyCents": 1016146,
+      "totalCents": 5814146,
+      "invoices": 28,
+      "complete": true
+    },
+    {
+      "month": "2026-05",
+      "erpnextCents": 4869000,
+      "legacyCents": 1098847,
+      "totalCents": 5967847,
+      "invoices": 29,
+      "complete": true
+    },
+    {
+      "month": "2026-06",
+      "erpnextCents": 4514700,
+      "legacyCents": 1096350,
+      "totalCents": 5611050,
+      "invoices": 29,
+      "complete": true
+    },
+    {
+      "month": "2026-07",
+      "erpnextCents": 4373700,
+      "legacyCents": 1382064,
+      "totalCents": 5755764,
+      "invoices": 26,
+      "complete": true
+    },
+    {
+      "month": "2026-08",
+      "erpnextCents": 4339300,
+      "legacyCents": 1337271,
+      "totalCents": 5676571,
+      "invoices": 27,
+      "complete": true
+    },
+    {
+      "month": "2026-09",
+      "erpnextCents": 4375200,
+      "legacyCents": 1458036,
+      "totalCents": 5833236,
+      "invoices": 25,
+      "complete": true
+    },
+    {
+      "month": "2026-10",
+      "erpnextCents": 4609600,
+      "legacyCents": 1306907,
+      "totalCents": 5916507,
+      "invoices": 28,
+      "complete": false
+    }
+  ],
+  "total": {
+    "erpnextCents": 46266400,
+    "legacyCents": 10991583,
+    "totalCents": 57257983,
+    "invoices": 275
+  },
+  "topCustomers": [
+    {
+      "name": "Northgate School Cafeteria Services",
+      "totalCents": 5592000,
+      "invoices": 14,
+      "mapped": true
+    },
+    {
+      "name": "Prairie Fork Restaurant Group",
+      "totalCents": 5478200,
+      "invoices": 16,
+      "mapped": true
+    },
+    {
+      "name": "Acme Foods Inc.",
+      "totalCents": 5207103,
+      "invoices": 21,
+      "mapped": true
+    },
+    {
+      "name": "Blue Ridge Kitchens",
+      "totalCents": 4817495,
+      "invoices": 22,
+      "mapped": true
+    },
+    {
+      "name": "Golden Spoon Catering",
+      "totalCents": 4402000,
+      "invoices": 13,
+      "mapped": true
+    },
+    {
+      "name": "Sunset Grill & Taphouse",
+      "totalCents": 4325306,
+      "invoices": 22,
+      "mapped": true
+    },
+    {
+      "name": "Harbor Lane Bistro",
+      "totalCents": 4045795,
+      "invoices": 23,
+      "mapped": true
+    },
+    {
+      "name": "Redwood Pizza Kitchen",
+      "totalCents": 3738635,
+      "invoices": 21,
+      "mapped": true
+    }
+  ],
+  "quarantine": {
+    "count": 7,
+    "byReason": [
+      {
+        "reasonCode": "TOTAL_MISMATCH",
+        "count": 3
+      },
+      {
+        "reasonCode": "CONFLICTING_DUPLICATE",
+        "count": 1
+      },
+      {
+        "reasonCode": "INVALID_DATE",
+        "count": 1
+      },
+      {
+        "reasonCode": "MISSING_FIELD",
+        "count": 1
+      },
+      {
+        "reasonCode": "UNSUPPORTED_CURRENCY",
+        "count": 1
+      }
+    ],
+    "examples": [
+      {
+        "source": "legacy_unit_b",
+        "sourceDocId": "UB-26084",
+        "reasonCode": "UNSUPPORTED_CURRENCY"
+      },
+      {
+        "source": "legacy_unit_b",
+        "sourceDocId": "UB-26077",
+        "reasonCode": "TOTAL_MISMATCH"
+      },
+      {
+        "source": "legacy_unit_b",
+        "sourceDocId": "UB-26023",
+        "reasonCode": "MISSING_FIELD"
+      },
+      {
+        "source": "legacy_unit_b",
+        "sourceDocId": "UB-26016",
+        "reasonCode": "TOTAL_MISMATCH"
+      },
+      {
+        "source": "legacy_unit_b",
+        "sourceDocId": "UB-26010",
+        "reasonCode": "INVALID_DATE"
+      },
+      {
+        "source": "legacy_unit_b",
+        "sourceDocId": "UB-26005",
+        "reasonCode": "CONFLICTING_DUPLICATE"
+      }
+    ]
+  },
+  "health": {
+    "erpnextLastSuccessfulSync": "2026-11-01T19:30:01.745958+00:00",
+    "legacyNewestExport": "2026-10-16",
+    "legacyLastIngest": "2026-10-18T20:00:01.841863+00:00",
+    "consumerProcessed": 0,
+    "consumerParked": 0,
+    "queuePending": 0,
+    "deadLetter": 0,
+    "reconciliation": {
+      "finishedAt": "2026-11-01T06:00:02.610565+00:00",
+      "erpTotal": "462664",
+      "storedTotal": "462664",
+      "unexplained": 0
+    }
+  }
+}

@@ -1,0 +1,27 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies and build
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Local data (raw ERP payloads, the S3 equivalent)
+raw/
+
+# OS files and logs
+.DS_Store
+*.log
+
+# Local editor settings
+.vscode/
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Next.js
+.next/
+next-env.d.ts
+AGENTS.md
